@@ -83,7 +83,7 @@ kubectl edit no k8s-master01
 不然会报错
 ```Jun 01 18:38:39 k8s-master01 kubelet[3499]: Error: failed to parse kubelet flag: unknown flag: --network-plugin```
 
-``
+```
 systemctl daemon-reload
 systemctl restart kubelet
 ```
