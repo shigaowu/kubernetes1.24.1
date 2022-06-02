@@ -1,5 +1,5 @@
 # k8s 1.23.1升级到1.24.1
-## 一、从docker迁移到container
+## 一、从docker迁移到containerd
 ###  1、腾空节点
    ``` kubectl drain k8s-master01 --ignore-daemonsets ```
 ### 2、停止docker守护进程
