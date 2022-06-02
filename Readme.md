@@ -43,6 +43,7 @@ WantedBy=multi-user.target
 ```
 #### 配置 containerd：
    ``` mkdir -p /etc/containerd```
+   
    ```containerd config default | tee /etc/containerd/config.toml```
    
 注意:这里要改一下配置文件里的pause域名，不然因为网络差镜像拉不下来kubelet就起不来，即使你提前准备好阿里云镜像打和官方同样的tag都不行。
