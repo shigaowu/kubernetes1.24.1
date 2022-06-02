@@ -54,7 +54,38 @@ WantedBy=multi-user.target
 
 这时候再get node查看信息可以看到CONTAINER-RUNTIME变成containerd://1.6.4了，再也不是熟悉的docker://20.10.6了
 
+#### 实测
+containerd可以直接拉取阿里云镜像
 
+可以拉取docker官网镜像(docker.io/library/域名不能省)
+
+拉取harbor私库镜像,需要修改配置文件:
+```
+  [plugins."io.containerd.grpc.v1.cri".registry]
+      config_path = ""
+
+      [plugins."io.containerd.grpc.v1.cri".registry.auths]
+
+      [plugins."io.containerd.grpc.v1.cri".registry.configs]
+         [plugins."io.containerd.grpc.v1.cri".registry.configs."hub.xxxxx.com".tls]
+                        insecure_skip_verify = true
+         [plugins."io.containerd.grpc.v1.cri".registry.configs."hub.xxxxx.com".auth]
+                        username = "xxxxx"
+                        password = "xxxxx"
+
+      [plugins."io.containerd.grpc.v1.cri".registry.headers]
+
+      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."hub.xxxxx.com"]
+         endpoint = ["http://hub.xxxxx.com"]
+ ```
+ 
+配置好后用命令行测试时候需要用 crictl 才能识别配置的证书和用户名密码，用 ctr 和 nerdctl 均不行。
+用ctr 的话需要 -k 跳过证书校验及-u 输入账号密码，比如:
+
+``` ctr images pull -k -u xxxxx:xxxxx hub.xxxxx.com/xxx/sentinel:1.8.1.2 ```
+
+配置好后利用deployment等控制器部署的时候，直接引用镜像，无需再配置 imagePullSecrets了。
 
 ## 二、升级到1.24.1
 ### 1、升级kubeadm到1.24.1
