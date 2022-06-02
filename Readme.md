@@ -1,5 +1,5 @@
 # k8s 1.23.1升级到1.24.1
-## 从docker迁移到container
+## 一、从docker迁移到container
 ###  1、腾空节点
    ``` kubectl drain k8s-master01 --ignore-daemonsets ```
 ### 2、停止docker守护进程
@@ -52,8 +52,8 @@ WantedBy=multi-user.target
 
 
 
-## 升级到1.24.1
-### 升级到1.24.1
+## 二、升级到1.24.1
+### 1、升级kubeadm到1.24.1
    ```yum install -y kubeadm-1.24.1-0 --disableexcludes=Kubernetes```
 
 用kubeadm升级的时候:
@@ -66,16 +66,16 @@ kubectl edit no k8s-master01
  unix:// 前缀。
 保存文本编辑器中所作的修改，这会更新 Node 对象。
 
-### 升级到的目标版本
+### 2、升级到的目标版本
    ```kubeadm upgrade apply v1.24.1```
 
-### 腾空节点:
+### 3、腾空节点:
    ```kubectl drain k8s-master01  --ignore-daemonsets```
 
-### 升级kubelet和kubectl
+### 4、升级kubelet和kubectl
    ```yum install -y kubelet-1.24.1-0 kubectl-1.24.1-0 --disableexcludes=Kubernetes```
 
-### 重启kubelet
+### 5、重启kubelet
 这里要注意!
    ```vi /var/lib/kubelet/kubeadm-flags.env```
 删掉 --network-plugin参数，这个参数已经过时了。
@@ -88,5 +88,5 @@ systemctl daemon-reload
 systemctl restart kubelet
 ```
 
-### 解除节点保护:
+### 6、解除节点保护:
 ```kubectl uncordon k8s-master01```
