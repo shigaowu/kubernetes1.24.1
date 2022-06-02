@@ -41,12 +41,13 @@ OOMScoreAdjust=-999
 WantedBy=multi-user.target
 ```
 #### 配置 containerd：
-   ```sudo mkdir -p /etc/containerd```
-   ```containerd config default | sudo tee /etc/containerd/config.toml```
-注意:这里要改一下pause的域名，不然镜像拉不下来kubelet就起不来，即使你提前准备好镜像打同样的tag都不行。
+   ``` mkdir -p /etc/containerd```
+   ```containerd config default | tee /etc/containerd/config.toml```
+   
+注意:这里要改一下配置文件里的pause域名，不然因为网络差镜像拉不下来kubelet就起不来，即使你提前准备好阿里云镜像打和官方同样的tag都不行。
 ```sed -i '/sandbox_image/s/k8s.gcr.io\/pause:3.6/registry.aliyuncs.com\/google_containers\/pause:3.6/' /etc/containerd/config.toml```
 #### 重启 containerd：
-   ```sudo systemctl restart containerd```
+   ``` systemctl restart containerd```
 
 这时候再get node查看信息可以看到CONTAINER-RUNTIME变成containerd://1.6.4了，再也不是熟悉的docker://20.10.6了
 
