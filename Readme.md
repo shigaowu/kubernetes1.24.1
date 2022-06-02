@@ -1,15 +1,15 @@
 # k8s 1.23.1升级到1.24.1
 ## 从docker迁移到container
 ###  1、腾空节点
-    ```kubectl drain k8s-master01 --ignore-daemonsets```
+   ``` kubectl drain k8s-master01 --ignore-daemonsets ```
 ### 2、停止docker守护进程
-    ```systemctl stop kubelet```
-    ```systemctl disable docker.service --now```
+   ``` systemctl stop kubelet ```
+   ``` systemctl disable docker.service --now ```
 ### 3、安装container
 #### 下载安装包:
-```wget https://github.com/containerd/containerd/releases/download/v1.6.4/containerd-1.6.4-linux-amd64.tar.gz```
+``` wget https://github.com/containerd/containerd/releases/download/v1.6.4/containerd-1.6.4-linux-amd64.tar.gz ```
 #### 解压安装包:
-```tar Cxzvf /usr/local containerd-1.6.4-linux-amd64.tar.gz```
+``` tar Cxzvf /usr/local containerd-1.6.4-linux-amd64.tar.gz ```
 #### 创建服务:
 ```
 vi /usr/lib/systemd/system/containerd.service
