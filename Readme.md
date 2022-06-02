@@ -4,6 +4,7 @@
    ``` kubectl drain k8s-master01 --ignore-daemonsets ```
 ### 2、停止docker守护进程
    ``` systemctl stop kubelet ```
+   
    ``` systemctl disable docker.service --now ```
 ### 3、安装container
 #### 下载安装包:
